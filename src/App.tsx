@@ -11,8 +11,16 @@ import CourseDetail from "./componenet/CouserDetails";
 import EditCourse from "./componenet/EditCourse";
 import EditVideo from "./componenet/EditVideo";
 import EditTeacher from "./componenet/EditTeacher";
+import AddAdmin from "./componenet/AddAdmin";
+import ChangePassword from "./componenet/AddAdmin";
+import EditAdmin from "./componenet/EditAdmin";
+import { Home } from "@mui/icons-material";
 
 const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Home />,
+  },
   {
     path: "dashboard",
     element: <Dashboard />,
@@ -48,6 +56,14 @@ const router = createBrowserRouter([
       {
         path: "edit-video",
         element: <EditVideo />,
+      },
+      {
+        path: "change-password",
+        element: <ChangePassword />,
+      },
+      {
+        path: "edit-admin",
+        element: <EditAdmin />,
       },
     ],
   },

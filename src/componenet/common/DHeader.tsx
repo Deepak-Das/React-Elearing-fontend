@@ -4,6 +4,7 @@ const { Header, Sider, Content } = Layout;
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { useAppDispatch, useAppSelector } from "../../state/hook";
 import { sideToggle } from "../../state/slice-creater/sideMenuToggleSlice";
+import { Logout } from "@mui/icons-material";
 
 const DHeader = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +26,13 @@ const DHeader = () => {
           height: 64,
         }}
       />
-      <h1 className="text-2xl font-medium  text-slate-700">{title}</h1>
+      <div className="flex justify-between w-full pr-2">
+        <h1 className="text-2xl font-medium  text-slate-700">{title}</h1>
+        <Button type="primary" className="flex gap-2 items-center">
+          {" "}
+          <Logout /> Log Out
+        </Button>
+      </div>
     </Header>
   );
 };

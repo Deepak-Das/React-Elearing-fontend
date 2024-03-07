@@ -24,80 +24,80 @@ const Sidebar: React.FC = () => {
         <hr />
       </div>
 
-      <Menu
-        theme="dark"
-        mode="inline"
-        onClick={(info) => {
-          navigate(info.key);
-        }}
-        defaultSelectedKeys={["1"]}
-        items={[
-          {
-            key: "Teachers",
-            icon: <GiTeacher />,
-            label: "Tacher",
-            children: [
-              {
-                key: "add-teacher",
-                label: "Add Teacher",
-                onClick: () => {
-                  dispatch(setHeading("Add Teacher "));
+      <div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          onClick={(info) => {
+            navigate(info.key);
+          }}
+          defaultSelectedKeys={["1"]}
+          items={[
+            {
+              key: "Teachers",
+              icon: <GiTeacher />,
+              label: "Tacher",
+              children: [
+                {
+                  key: "add-teacher",
+                  label: "Add Teacher",
+                  onClick: () => {
+                    dispatch(setHeading("Add Teacher "));
+                  },
                 },
-              },
-              {
-                key: "view-teachers",
-                label: "View Teacher List",
-                onClick: () => {
-                  dispatch(setHeading("View Teacher List"));
+                {
+                  key: "view-teachers",
+                  label: "View Teacher List",
+                  onClick: () => {
+                    dispatch(setHeading("View Teacher List"));
+                  },
                 },
-              },
-              {
-                key: "teacher-detail",
-                label: "Teacher Detail",
-                onClick: () => {
-                  dispatch(setHeading("Teacher Detail"));
+                {
+                  key: "teacher-detail",
+                  label: "Teacher Detail",
+                  onClick: () => {
+                    dispatch(setHeading("Teacher Detail"));
+                  },
                 },
-              },
-            ],
-          },
-          {
-            key: "Courser",
-            icon: <SiCoursera />,
-            label: "Cousers",
-            children: [
-              {
-                key: "add-course",
-                label: "Add Courser",
-              },
-              {
-                key: "view-courses",
-                label: "View Course List",
-              },
-              {
-                key: "add-video",
-                label: "Add Course Video",
-              },
-            ],
-          },
-          {
-            key: "Admin Profile",
-            icon: <AdminPanelSettings />,
-            label: "Admin Profile",
-            children: [
-              {
-                key: "Edit Profile",
-                label: "Edit Profile",
-              },
-              {
-                key: "Change Password",
-                label: "change Password",
-              },
-            ],
-          },
-        ]}
-      />
-
-      <div>Log Out</div>
+              ],
+            },
+            {
+              key: "Courser",
+              icon: <SiCoursera />,
+              label: "Cousers",
+              children: [
+                {
+                  key: "add-course",
+                  label: "Add Courser",
+                },
+                {
+                  key: "view-courses",
+                  label: "View Course List",
+                },
+                {
+                  key: "add-video",
+                  label: "Add Course Video",
+                },
+              ],
+            },
+            {
+              key: "Admin Profile",
+              icon: <AdminPanelSettings />,
+              label: "Admin Profile",
+              children: [
+                {
+                  key: "edit-admin",
+                  label: "Edit Profile",
+                },
+                {
+                  key: "change-password",
+                  label: "Change Password",
+                },
+              ],
+            },
+          ]}
+        />
+      </div>
     </Sider>
   );
 };
