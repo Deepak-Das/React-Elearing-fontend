@@ -1,26 +1,35 @@
+import { VideoCard } from "./VideoCard";
 import { Star, StarHalf, StarOutline } from "@mui/icons-material";
-import { Avatar, Button } from "antd";
+import { Avatar, Button, Switch } from "antd";
 import CourseCard from "./CourseCard ";
+import VideoUploadDialoge from "./VideoUploadDialoge";
+import { useAppDispatch } from "../state/hook";
+import { setVDialoge } from "../state/slice-creater/toggleVideoUploadSlice";
+import { ImPlay2 } from "react-icons/im";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
+import { setHeading } from "../state/slice-creater/headingTextSlice";
 
-const TeacherDetails = () => {
+const CourseDetail = () => {
+  const disPatch = useAppDispatch();
 
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    disPatch(setHeading("Course Detail"));
+  }, []);
 
   return (
     <>
-      <div className="px-6 py-4 m-8 shadow-md rounded-md justify-center items-center bg-white">
+      <div className="px-6 py-4 m-8 shadow-md rounded-md justify-center items-center bg-white relative">
         <div className="grid grid-cols-6 w-full relative">
           <div className="my-12 mr-5 col-span-1 flex flex-col justify-center items-center">
-            <Avatar
+            <img
               className="mb-6"
-              size={100}
-              src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
+              src="https://www.jrebel.com/sites/default/files/image/2020-05/image-blog-revel-top-java-tools.jpg"
             />
             <div className="w-full flex flex-col items-center gap-1 justify-center">
-              <div className="font-medium text-md">Mr. Sahil Yadav</div>
+              <div className="font-medium text-md">Java Development</div>
               <div className=" flex gap-1 ">
                 <div className="">
                   <Star className="text-yellow-400" fontSize="small" />
@@ -43,22 +52,29 @@ const TeacherDetails = () => {
                 <span className="text-[10px] font-semibold">85%</span>
               </div>
             </div>
-            <Button className="absolute bottom-0 " onClick={()=>navigate("../edit-teacher")}>Edit Profile</Button>
+
+            <Button
+              onClick={() => disPatch(setVDialoge(true))}
+              className="absolute bottom-0 "
+            >
+              Add Video
+            </Button>
           </div>
-          <div className="border-l  col-span-5  w-full">
-            <div className="pl-3 grid grid-cols-3 relative  border-b mt-3">
+
+          <div className="border-l  col-span-5  w-full font-medium relative">
+            <div className="pl-3 grid grid-cols-3 relative  border-b mt-3 ">
               <div className="col-span-4 absolute top-0 left-3  text-nowrap font-medium text-gray-400 ">
-                User Profile
+                Couser Detail
               </div>
               <div className="text-gray-400 py-6  ">
-                Gender: <span className="text-black  ">Male</span>
+                CourseId: <span className="text-black  ">123</span>
               </div>
               <div className="text-gray-400 py-6   ">
-                DOB: <span className="text-black  ">1996-12-06</span>
+                CourseName: <span className="text-black  ">Core Java guid</span>
               </div>
               <div className="text-gray-400 py-6  ml-2  ">
-                Phone No:{" "}
-                <span className="text-indigo-500  ">+91-9864251145</span>
+                Category:{" "}
+                <span className="text-indigo-500  ">Java Developement</span>
               </div>
             </div>
             <div className="pl-3 grid grid-cols-3 relative  border-b mt-3">
@@ -66,27 +82,35 @@ const TeacherDetails = () => {
               Health Info.
             </div> */}
               <div className="text-gray-400 py-6  ">
-                Bool Type: <span className="text-black  ">B+</span>
+                Number of Video: <span className="text-black   ">4</span>
               </div>
               <div className="text-gray-400 py-6   ">
-                Language: <span className="text-black  ">English/Hindi</span>
+                isBlock:{" "}
+                <span className="text-black  ">
+                  {" "}
+                  <Switch className="bg-gray-300"></Switch>{" "}
+                </span>
               </div>
               <div className="text-gray-400 py-6  ml-2  ">
-                Experience:
-                <span className="text-indigo-500  "> 5+ yrs</span>
+                Course Fee:
+                <span className="text-green-500  "> Rs. 3600</span>
               </div>
             </div>
           </div>
         </div>
+        <Button
+          type="primary"
+          className="absolute right-4 top-2"
+          onClick={() => navigate("../edit-course")}
+        >
+          Edit Detail
+        </Button>
       </div>
 
-      <div className="p-8 m-8 shadow-md rounded-md  flex  justify-around bg-white">
-        <CourseCard />
-        <CourseCard />
-        <CourseCard />
-      </div>
+      <VideoCard />
+      <VideoUploadDialoge />
     </>
   );
 };
 
-export default TeacherDetails;
+export default CourseDetail;

@@ -12,11 +12,11 @@ export const sideMenuToggleSlice=createSlice({
     name:"sideMenu",
     initialState,
     reducers:{ 
-        toggle:state => { state.collapse = !state.collapse},
+        sideToggle:state => { state.collapse = !state.collapse},
 
 }
 })
 
-export const {toggle}= sideMenuToggleSlice.actions
+export const { sideToggle } = sideMenuToggleSlice.actions;
 // export const useSideMenuSelect=(state:RootState)=> state.sideMenu.collapse;
 export default sideMenuToggleSlice.reducer

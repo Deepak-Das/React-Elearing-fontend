@@ -1,10 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import sideMenuToggleSlice from "./slice-creater/sideMenuToggleSlice";
+import  VideoUploadDialogeSlice  from './slice-creater/toggleVideoUploadSlice';
+import headingTextSlice from './slice-creater/headingTextSlice';
 
 
 export const store = configureStore({
   reducer: {
     sideToggle: sideMenuToggleSlice,
+    videoUploadDialoge: VideoUploadDialogeSlice,
+    headingText:headingTextSlice
   },
 });
 

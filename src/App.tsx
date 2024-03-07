@@ -6,6 +6,11 @@ import AddTeacher from "./componenet/AddTeacher";
 import { ConfigProvider } from "antd";
 import CustomTable from "./componenet/CustomTable";
 import TeacherDetails from "./componenet/TeacherDetails";
+import AddCourse from "./componenet/AddCourse";
+import CourseDetail from "./componenet/CouserDetails";
+import EditCourse from "./componenet/EditCourse";
+import EditVideo from "./componenet/EditVideo";
+import EditTeacher from "./componenet/EditTeacher";
 
 const router = createBrowserRouter([
   {
@@ -21,8 +26,28 @@ const router = createBrowserRouter([
         element: <CustomTable />,
       },
       {
-        path: "teacher-details",
+        path: "edit-teacher",
+        element: <EditTeacher />,
+      },
+      {
+        path: "teacher-detail",
         element: <TeacherDetails />,
+      },
+      {
+        path: "add-course",
+        element: <AddCourse />,
+      },
+      {
+        path: "course-detail",
+        element: <CourseDetail />,
+      },
+      {
+        path: "edit-course",
+        element: <EditCourse />,
+      },
+      {
+        path: "edit-video",
+        element: <EditVideo />,
       },
     ],
   },
@@ -33,7 +58,7 @@ function App() {
     <ConfigProvider
       theme={{
         token: {
-          // colorPrimary: "#15395b",
+          colorPrimary: "#15395b",
         },
       }}
     >

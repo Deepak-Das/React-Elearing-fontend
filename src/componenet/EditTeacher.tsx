@@ -53,7 +53,7 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 // =====================
 
-const AddTeacher: React.FC = () => {
+const EditTeacher: React.FC = () => {
   const [form] = useForm();
   const onFinish = (values: any) => {
     const jsonBody = { ...values, base64: base64ImgData };
@@ -79,7 +79,23 @@ const AddTeacher: React.FC = () => {
         </div>
 
         <Form.Item label="Upload Img">
-          <UploadProfile base64Data={base64ImgData} />
+          <UploadProfile
+            imgUrl="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
+            base64Data={base64ImgData}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Teacher ID"
+          name="teacherId"
+          // rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input
+            placeholder="1234"
+            className="placeholder:text-black placeholder:font-medium"
+            readOnly={true}
+            disabled={true}
+          />
         </Form.Item>
 
         <Form.Item
@@ -159,4 +175,4 @@ const AddTeacher: React.FC = () => {
     </div>
   );
 };
-export default AddTeacher;
+export default EditTeacher;

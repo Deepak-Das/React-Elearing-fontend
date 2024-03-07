@@ -34,26 +34,7 @@ const formItemLayout = {
   },
 };
 
-const uploadButton = (
-  <button style={{ border: 0, background: "none" }} type="button">
-    <PlusOutlined />
-    <div style={{ marginTop: 8 }}>Upload</div>
-  </button>
-);
-
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
-// =====================
-
-const AddTeacher: React.FC = () => {
+const EditCourse: React.FC = () => {
   const [form] = useForm();
   const onFinish = (values: any) => {
     const jsonBody = { ...values, base64: base64ImgData };
@@ -74,82 +55,89 @@ const AddTeacher: React.FC = () => {
       >
         <div className="w-full flex justify-center items-center p-4">
           <h3 className="text-lg font-medium uppercase underline">
-            Add New Teacher
+            Edit Course
           </h3>
         </div>
 
-        <Form.Item label="Upload Img">
-          <UploadProfile base64Data={base64ImgData} />
+        <Form.Item label="Course Img">
+          <UploadProfile
+            base64Data={base64ImgData}
+            imgUrl="https://www.jrebel.com/sites/default/files/image/2020-05/image-blog-revel-top-java-tools.jpg"
+          />
         </Form.Item>
 
         <Form.Item
-          label="First Name"
-          name="firstName"
+          label="Courser ID"
+          name="corusreId"
+          // rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input
+            placeholder="1234"
+            className="placeholder:text-black placeholder:font-medium"
+            readOnly={true}
+            disabled={true}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Course Name"
+          name="coursename"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item
-          label="Last Name"
-          name="InputNumber"
+          label="fees"
+          name="fees"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input style={{ width: "100%" }} />
+        </Form.Item>
+        <Form.Item
+          label="Description"
+          name="description"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item
-          label="Email"
-          name="email"
+          label="rating"
+          name="rating"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item
-          label="Date of birth"
-          name="dob"
+          label="ValidDate"
+          name="validDate"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
 
         <Form.Item
-          label="Date of Joining"
-          name="doj"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <DatePicker style={{ width: "100%" }} />
-        </Form.Item>
-
-        <Form.Item
-          label="Experience in yrs."
-          name="exp"
-          rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input style={{ width: "100%" }} type="number" />
-        </Form.Item>
-
-        <Form.Item
-          label="Language"
-          name="languageId"
+          label="Category"
+          name="categoryId"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Select
             options={[
-              { label: "Hindi", value: "Hindi" },
-              { label: "English", value: "English" },
-              { label: "Bengali", value: "Bengali" },
+              { label: "Graphy Desgin", value: "Graphy Desgin" },
+              { label: "Java Devlopment", value: "Java Devlopment" },
+              { label: "Web Devlopment", value: "Web Devlopment" },
             ]}
           />
         </Form.Item>
 
         <Form.Item label="Block" name="isBlock">
-          <Switch className="bg-gray-300" />
+          <Switch className="bg-gray-300" value={false} />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 11, span: 16 }}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" className="bg-[#15395b]">
             Submit
           </Button>
         </Form.Item>
@@ -159,4 +147,4 @@ const AddTeacher: React.FC = () => {
     </div>
   );
 };
-export default AddTeacher;
+export default EditCourse;

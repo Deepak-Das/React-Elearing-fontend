@@ -1,17 +1,20 @@
 import React, { useState } from "react";
 import { Layout, Menu, Button, theme } from "antd";
-import { useAppSelector } from "../../state/hook";
+import { useAppDispatch, useAppSelector } from "../../state/hook";
 import { GiTeacher } from "react-icons/gi";
 import { SiCoursera } from "react-icons/si";
 import dash1 from "../../assets/dash1.png";
 import dash2 from "../../assets/dash2.png";
 import { useNavigate } from "react-router";
+import { AdminPanelSettings } from "@mui/icons-material";
+import { setHeading } from "../../state/slice-creater/headingTextSlice";
 
 const { Header, Sider, Content } = Layout;
 
 const Sidebar: React.FC = () => {
   const collapsed = useAppSelector((state) => state.sideToggle.collapse);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -37,14 +40,23 @@ const Sidebar: React.FC = () => {
               {
                 key: "add-teacher",
                 label: "Add Teacher",
+                onClick: () => {
+                  dispatch(setHeading("Add Teacher "));
+                },
               },
               {
                 key: "view-teachers",
                 label: "View Teacher List",
+                onClick: () => {
+                  dispatch(setHeading("View Teacher List"));
+                },
               },
               {
-                key: "teacher-details",
-                label: "Teacher Details",
+                key: "teacher-detail",
+                label: "Teacher Detail",
+                onClick: () => {
+                  dispatch(setHeading("Teacher Detail"));
+                },
               },
             ],
           },
@@ -54,21 +66,38 @@ const Sidebar: React.FC = () => {
             label: "Cousers",
             children: [
               {
-                key: "add-courser",
+                key: "add-course",
                 label: "Add Courser",
               },
               {
-                key: "view-courser",
-                label: "View Courser List",
+                key: "view-courses",
+                label: "View Course List",
               },
               {
-                key: "add-courser-video",
-                label: "Add Coruser Video",
+                key: "add-video",
+                label: "Add Course Video",
+              },
+            ],
+          },
+          {
+            key: "Admin Profile",
+            icon: <AdminPanelSettings />,
+            label: "Admin Profile",
+            children: [
+              {
+                key: "Edit Profile",
+                label: "Edit Profile",
+              },
+              {
+                key: "Change Password",
+                label: "change Password",
               },
             ],
           },
         ]}
       />
+
+      <div>Log Out</div>
     </Sider>
   );
 };
