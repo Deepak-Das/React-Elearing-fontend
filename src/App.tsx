@@ -14,12 +14,26 @@ import EditTeacher from "./componenet/EditTeacher";
 import AddAdmin from "./componenet/AddAdmin";
 import ChangePassword from "./componenet/AddAdmin";
 import EditAdmin from "./componenet/EditAdmin";
-import { Home } from "@mui/icons-material";
+import Home from "./componenet/home/Home";
+import Header from "./componenet/common/header/Header";
+import Footer from "./componenet/common/footer/Footer";
+import UserPage from "./pages/UserPage";
+import OnlineCourses from "./componenet/allcourses/OnlineCourses";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <UserPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home />,
+      },
+      {
+        path: "courses",
+        element: <OnlineCourses />,
+      },
+    ],
   },
   {
     path: "dashboard",
