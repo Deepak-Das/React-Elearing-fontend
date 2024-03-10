@@ -4,21 +4,27 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import AddTeacher from "./componenet/AddTeacher";
 import { ConfigProvider } from "antd";
-import CustomTable from "./componenet/CustomTable";
 import TeacherDetails from "./componenet/TeacherDetails";
 import AddCourse from "./componenet/AddCourse";
 import CourseDetail from "./componenet/CouserDetails";
 import EditCourse from "./componenet/EditCourse";
 import EditVideo from "./componenet/EditVideo";
 import EditTeacher from "./componenet/EditTeacher";
-import AddAdmin from "./componenet/AddAdmin";
 import ChangePassword from "./componenet/AddAdmin";
 import EditAdmin from "./componenet/EditAdmin";
 import Home from "./componenet/home/Home";
-import Header from "./componenet/common/header/Header";
-import Footer from "./componenet/common/footer/Footer";
 import UserPage from "./pages/UserPage";
 import OnlineCourses from "./componenet/allcourses/OnlineCourses";
+import About from "./componenet/about/About";
+import Team from "./componenet/team/Team";
+import Contact from "./componenet/contact/Contact";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+} from "@tanstack/react-query";
+import TeachersList from "./componenet/team/TeachersList";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +39,18 @@ const router = createBrowserRouter([
         path: "courses",
         element: <OnlineCourses />,
       },
+      {
+        path: "about",
+        element: <About />,
+      },
+      {
+        path: "team",
+        element: <Team />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
     ],
   },
   {
@@ -45,7 +63,7 @@ const router = createBrowserRouter([
       },
       {
         path: "view-teachers",
-        element: <CustomTable />,
+        element: <TeachersList />,
       },
       {
         path: "edit-teacher",
@@ -83,6 +101,8 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
     <ConfigProvider
@@ -92,7 +112,10 @@ function App() {
         },
       }}
     >
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ReactQueryDevtools initialIsOpen />
+      </QueryClientProvider>
     </ConfigProvider>
   );
 }

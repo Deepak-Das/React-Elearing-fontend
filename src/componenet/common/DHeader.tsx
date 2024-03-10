@@ -13,7 +13,7 @@ const DHeader = () => {
 
   return (
     <Header
-      style={{ padding: 0, background: "#fff" }}
+      style={{ padding: 0, background: "#fff", margin: 0 }}
       className="flex items-center"
     >
       <Button

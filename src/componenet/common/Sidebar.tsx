@@ -18,86 +18,83 @@ const Sidebar: React.FC = () => {
 
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
-      <div className="demo-logo-vertical" />
       <div className="my-2 p-4 ">
         <img src={dash1} alt="" className="w-full mb-4 " />
         <hr />
       </div>
 
-      <div>
-        <Menu
-          theme="dark"
-          mode="inline"
-          onClick={(info) => {
-            navigate(info.key);
-          }}
-          defaultSelectedKeys={["1"]}
-          items={[
-            {
-              key: "Teachers",
-              icon: <GiTeacher />,
-              label: "Tacher",
-              children: [
-                {
-                  key: "add-teacher",
-                  label: "Add Teacher",
-                  onClick: () => {
-                    dispatch(setHeading("Add Teacher "));
-                  },
+      <Menu
+        theme="dark"
+        mode="inline"
+        onClick={(info) => {
+          navigate(info.key);
+        }}
+        defaultSelectedKeys={["1"]}
+        items={[
+          {
+            key: "Teachers",
+            icon: <GiTeacher />,
+            label: "Tacher",
+            children: [
+              {
+                key: "add-teacher",
+                label: "Add Teacher",
+                onClick: () => {
+                  dispatch(setHeading("Add Teacher "));
                 },
-                {
-                  key: "view-teachers",
-                  label: "View Teacher List",
-                  onClick: () => {
-                    dispatch(setHeading("View Teacher List"));
-                  },
+              },
+              {
+                key: "view-teachers",
+                label: "View Teacher List",
+                onClick: () => {
+                  dispatch(setHeading("View Teacher List"));
                 },
-                {
-                  key: "teacher-detail",
-                  label: "Teacher Detail",
-                  onClick: () => {
-                    dispatch(setHeading("Teacher Detail"));
-                  },
+              },
+              {
+                key: "teacher-detail",
+                label: "Teacher Detail",
+                onClick: () => {
+                  dispatch(setHeading("Teacher Detail"));
                 },
-              ],
-            },
-            {
-              key: "Courser",
-              icon: <SiCoursera />,
-              label: "Cousers",
-              children: [
-                {
-                  key: "add-course",
-                  label: "Add Courser",
-                },
-                {
-                  key: "view-courses",
-                  label: "View Course List",
-                },
-                {
-                  key: "add-video",
-                  label: "Add Course Video",
-                },
-              ],
-            },
-            {
-              key: "Admin Profile",
-              icon: <AdminPanelSettings />,
-              label: "Admin Profile",
-              children: [
-                {
-                  key: "edit-admin",
-                  label: "Edit Profile",
-                },
-                {
-                  key: "change-password",
-                  label: "Change Password",
-                },
-              ],
-            },
-          ]}
-        />
-      </div>
+              },
+            ],
+          },
+          {
+            key: "Courser",
+            icon: <SiCoursera />,
+            label: "Cousers",
+            children: [
+              {
+                key: "add-course",
+                label: "Add Courser",
+              },
+              {
+                key: "view-courses",
+                label: "View Course List",
+              },
+              {
+                key: "add-video",
+                label: "Add Course Video",
+              },
+            ],
+          },
+          {
+            key: "Admin Profile",
+            icon: <AdminPanelSettings />,
+            label: "Admin Profile",
+            children: [
+              {
+                key: "edit-admin",
+                label: "Edit Profile",
+              },
+              {
+                key: "change-password",
+                label: "Change Password",
+              },
+            ],
+          },
+        ]}
+      />
     </Sider>
   );
 };
