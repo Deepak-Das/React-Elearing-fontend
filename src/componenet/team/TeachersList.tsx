@@ -7,7 +7,9 @@ const TeachersList = () => {
   if (isError) {
     return (
       <div className="p-4 m-6 rounded-lg  bg-white">
-        <h2>please try later, something went wrong</h2>
+        <h2 className="font-medium">
+          please try later, something went wrong !!!
+        </h2>
       </div>
     );
   } else if (isLoading) {

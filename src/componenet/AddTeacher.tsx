@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   DatePicker,
@@ -13,15 +13,15 @@ import {
   UploadProps,
   message,
 } from "antd";
+import moment from "moment";
 
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 import teacherTeam from "../assets/teachers.png";
 import { useForm } from "antd/es/form/Form";
 import UploadProfile from "./UploadProfile";
+import useSingleTeacher from "../hooks/useSingleTeacher";
 // import { useForm, Controller } from "react-hook-form";
-
-const { RangePicker } = DatePicker;
 
 const formItemLayout = {
   labelCol: {
@@ -34,37 +34,48 @@ const formItemLayout = {
   },
 };
 
-const uploadButton = (
-  <button style={{ border: 0, background: "none" }} type="button">
-    <PlusOutlined />
-    <div style={{ marginTop: 8 }}>Upload</div>
-  </button>
-);
-
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
 // =====================
 
 const AddTeacher: React.FC = () => {
-  const [form] = useForm();
-  const onFinish = (values: any) => {
-    const jsonBody = { ...values, base64: base64ImgData };
-    console.log(jsonBody);
-    form.resetFields();
-  };
+  const [messageApi, contextHolder] = message.useMessage();
+  const dateFormat = "YYYY-MM-DD";
 
-  const base64ImgData = "";
+  const {
+    onFinish,
+    base64ImgData,
+    setBase64Image,
+    form,
+    isError,
+    isPending,
+    isSuccess,
+    uploadLoading,
+    setUploadLoadin,
+    handleChange,
+  } = useSingleTeacher();
+
+  useEffect(() => {
+    {
+      isPending &&
+        messageApi.open({
+          type: "warning",
+          content: "wait while teacher is saving",
+          duration: 5,
+        });
+    }
+
+    {
+      isSuccess &&
+        messageApi.open({
+          type: "success",
+          content: "Teacher saved successfully",
+          duration: 10,
+        });
+    }
+  }, [isError, isPending, isSuccess]);
 
   return (
     <div className="p-4 m-6 rounded-lg grid grid-cols-3 justify-center items-center bg-white">
+      {contextHolder}
       <Form
         {...formItemLayout}
         variant="filled"
@@ -79,7 +90,11 @@ const AddTeacher: React.FC = () => {
         </div>
 
         <Form.Item label="Upload Img">
-          <UploadProfile base64Data={base64ImgData} />
+          <UploadProfile
+            base64Data={base64ImgData}
+            loading={uploadLoading}
+            handleChange={handleChange}
+          />
         </Form.Item>
 
         <Form.Item
@@ -92,7 +107,7 @@ const AddTeacher: React.FC = () => {
 
         <Form.Item
           label="Last Name"
-          name="InputNumber"
+          name="lastName"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
@@ -124,15 +139,23 @@ const AddTeacher: React.FC = () => {
 
         <Form.Item
           label="Experience in yrs."
-          name="exp"
+          name="experience"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} type="number" />
         </Form.Item>
 
         <Form.Item
+          label="Qualification"
+          name="qualification"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Input style={{ width: "100%" }} />
+        </Form.Item>
+
+        <Form.Item
           label="Language"
-          name="languageId"
+          name="language"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Select
@@ -144,7 +167,7 @@ const AddTeacher: React.FC = () => {
           />
         </Form.Item>
 
-        <Form.Item label="Block" name="isBlock">
+        <Form.Item label="isBlock" name="isBlock">
           <Switch className="bg-gray-300" />
         </Form.Item>
 

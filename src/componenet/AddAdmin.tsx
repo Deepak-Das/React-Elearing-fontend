@@ -95,7 +95,14 @@ const ChangePassword: React.FC = () => {
         </Form.Item>
       </Form>
 
-      <img src={teacherTeam} className=" p-6" alt="" />
+      <video width="750" height="500" controls>
+        <source
+          src="http://localhost:9090/api/file/2355a4eb-0331-431e-9a24-3b582631ff42.mp4"
+          type="video/mp4"
+        />
+      </video>
+
+      {/* <img src={teacherTeam} className=" p-6" alt="" /> */}
     </div>
   );
 };

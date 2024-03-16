@@ -1,19 +1,19 @@
+
 export interface TeacherModel {
-  block: boolean;
+  isBlock: boolean;
   dob: Date;
   doj: Date;
-  email: null | string;
+  email: string;
   experience: number;
   firstName: string;
-  languageId: LanguageID;
+  language: string;
+  languageId: number;
   lastName: string;
-  password: number | null;
+  password: string;
   profilePicture: string;
-  qualification: null | string;
-  role: null | string;
+  qualification: string;
+  role: string;
   teacherId: number;
 }
 
-export enum LanguageID {
-  EnUS = "en_US",
-}
+

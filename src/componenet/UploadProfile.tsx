@@ -1,18 +1,11 @@
 import React, { useState } from "react";
 import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { message, Upload } from "antd";
-import type { GetProp, UploadProps } from "antd";
+import type { GetProp, UploadFile, UploadProps } from "antd";
 import ImgCrop from "antd-img-crop";
+import { UploadChangeParam } from "antd/es/upload";
 
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
-const uploadFile = null;
-
-const getBase64 = (img: FileType, callback: (data: string) => void) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(img);
-  reader.addEventListener("load", () => callback(reader.result as string));
-};
 
 const beforeUpload = (file: FileType) => {
   const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
@@ -34,29 +27,15 @@ const dummyRequest = async ({ file, onSuccess }: any) => {
 
 interface Props {
   base64Data: string;
-  imgUrl?: string;
+  loading: boolean;
+  handleChange: (info: UploadChangeParam<UploadFile<any>>) => void;
 }
 
-const UploadProfile: React.FC<Props> = ({ base64Data, imgUrl }) => {
-  const [loading, setLoading] = useState(false);
-  const [imageData, setImageData] = useState<string>(imgUrl ?? "");
-
-  const handleChange: UploadProps["onChange"] = (info) => {
-    if (info.file.status === "uploading") {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === "done") {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj as FileType, (data) => {
-        setLoading(false);
-        setImageData(data);
-        console.log("base64: ", data);
-        base64Data = data;
-      });
-    }
-  };
-
+const UploadProfile: React.FC<Props> = ({
+  base64Data,
+  loading,
+  handleChange,
+}: Props) => {
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -75,8 +54,8 @@ const UploadProfile: React.FC<Props> = ({ base64Data, imgUrl }) => {
       customRequest={dummyRequest}
       onChange={handleChange}
     >
-      {imageData ? (
-        <img src={imageData} alt="avatar" style={{ width: "80%" }} />
+      {base64Data ? (
+        <img src={base64Data} alt="avatar" style={{ width: "80%" }} />
       ) : (
         uploadButton
       )}

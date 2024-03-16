@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   DatePicker,
@@ -19,6 +19,10 @@ import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import teacherTeam from "../assets/teachers.png";
 import { useForm } from "antd/es/form/Form";
 import UploadProfile from "./UploadProfile";
+import { TeacherModel } from "../model/TeacherModel";
+import { useAppSelector } from "../state/hook";
+import moment from "moment";
+import dayjs from "dayjs";
 // import { useForm, Controller } from "react-hook-form";
 
 const { RangePicker } = DatePicker;
@@ -54,7 +58,9 @@ const getBase64 = (file: FileType): Promise<string> =>
 // =====================
 
 const EditTeacher: React.FC = () => {
-  const [form] = useForm();
+  const editTeacher = useAppSelector((state) => state.editState.teacher);
+  const [form] = useForm<TeacherModel>();
+
   const onFinish = (values: any) => {
     const jsonBody = { ...values, base64: base64ImgData };
     console.log(jsonBody);
@@ -62,6 +68,20 @@ const EditTeacher: React.FC = () => {
   };
 
   const base64ImgData = "";
+
+  useEffect(() => {
+    const cDoj = editTeacher?.doj;
+    console.log("Edit Teacher ", {
+      ...editTeacher,
+      doj: dayjs(cDoj),
+    });
+
+    form.setFieldsValue({
+      ...editTeacher,
+      doj: dayjs(cDoj),
+      dob: dayjs(editTeacher?.dob),
+    });
+  }, []);
 
   return (
     <div className="p-4 m-6 rounded-lg grid grid-cols-3 justify-center items-center bg-white">
@@ -79,10 +99,7 @@ const EditTeacher: React.FC = () => {
         </div>
 
         <Form.Item label="Upload Img">
-          <UploadProfile
-            imgUrl="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
-            base64Data={base64ImgData}
-          />
+          <UploadProfile setBase64={() => {}} base64Data={base64ImgData} />
         </Form.Item>
 
         <Form.Item
@@ -91,10 +108,9 @@ const EditTeacher: React.FC = () => {
           // rules={[{ required: true, message: "Please input!" }]}
         >
           <Input
-            placeholder="1234"
             className="placeholder:text-black placeholder:font-medium"
             readOnly={true}
-            disabled={true}
+            type="number"
           />
         </Form.Item>
 
@@ -108,7 +124,7 @@ const EditTeacher: React.FC = () => {
 
         <Form.Item
           label="Last Name"
-          name="InputNumber"
+          name="lastName"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
@@ -140,7 +156,7 @@ const EditTeacher: React.FC = () => {
 
         <Form.Item
           label="Experience in yrs."
-          name="exp"
+          name="experience"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} type="number" />
