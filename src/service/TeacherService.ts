@@ -4,7 +4,19 @@ import axios from "./axios";
 export const getAllTeacher = async () => {
   return await axios.get<TeacherModel[]>("/teacher");
 };
-export const postSingleTeacher = async (data: TeacherModel) => {
-  const res = (await axios.post<TeacherModel>("/teacher", data)).data;
-  // console.log(res.data);
+
+export const saveTeacher = async (data: TeacherModel) => {
+  try {
+    const res = await axios.post<TeacherModel>("/teacher", data);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const updateTeacher = async (data: TeacherModel) => {
+  try {
+    const res = await axios.put<TeacherModel>("/teacher", data);
+  } catch (err) {
+    console.log(err);
+  }
 };

@@ -1,24 +1,11 @@
-import React, { useState } from "react";
-import {
-  Button,
-  DatePicker,
-  Form,
-  GetProp,
-  Input,
-  Modal,
-  Select,
-  Switch,
-  Upload,
-  UploadFile,
-  UploadProps,
-  message,
-} from "antd";
-
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Form, Input, Select, Switch, message } from "antd";
+import React, { useEffect } from "react";
 
 import teacherTeam from "../assets/teachers.png";
-import { useForm } from "antd/es/form/Form";
+import useCrudeCourse from "../hooks/useCrudeCourse";
+import { useAppSelector } from "../state/hook";
 import UploadProfile from "./UploadProfile";
+import dayjs from "dayjs";
 // import { useForm, Controller } from "react-hook-form";
 
 const { RangePicker } = DatePicker;
@@ -35,17 +22,51 @@ const formItemLayout = {
 };
 
 const AddCourse: React.FC = () => {
-  const [form] = useForm();
-  const onFinish = (values: any) => {
-    const jsonBody = { ...values, base64: base64ImgData };
-    console.log(jsonBody);
-    form.resetFields();
-  };
+  const TeacherDetails = useAppSelector((state) => state.editState.teacher);
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const base64ImgData = "";
+  const {
+    onFinish,
+    base64ImgData,
+    form,
+    isError,
+    isPending,
+    isSuccess,
+    uploadLoading,
+    handleChange,
+    categories,
+    language,
+  } = useCrudeCourse();
+
+  useEffect(() => {
+    {
+      isPending &&
+        messageApi.open({
+          type: "warning",
+          content: "wait while teacher is saving",
+          duration: 5,
+        });
+    }
+
+    {
+      isSuccess &&
+        messageApi.open({
+          type: "success",
+          content: "Teacher saved successfully",
+          duration: 10,
+        });
+    }
+    form.setFieldsValue({
+      teacherId: TeacherDetails?.teacherId,
+      firstName: TeacherDetails?.firstName,
+      lastName: TeacherDetails?.lastName,
+      createDate: dayjs(new Date()),
+    });
+  }, [isError, isPending, isSuccess]);
 
   return (
     <div className="p-4 m-6 rounded-lg grid grid-cols-3 justify-center items-center bg-white">
+      {contextHolder}
       <Form
         {...formItemLayout}
         variant="filled"
@@ -59,25 +80,67 @@ const AddCourse: React.FC = () => {
           </h3>
         </div>
 
-        <Form.Item label="Course Img">
-          <UploadProfile base64Data={base64ImgData} />
+        <Form.Item label="Upload Img">
+          <UploadProfile
+            base64Data={base64ImgData}
+            loading={uploadLoading}
+            handleChange={handleChange}
+          />
         </Form.Item>
 
         <Form.Item
-          label="Course Name"
-          name="coursename"
+          label="Teacher ID"
+          name="teacherId"
+          // rules={[{ required: true, message: "Please input!" }]}
+          // initialValue={TeacherDetails?.teacherId}
+        >
+          <Input
+            className="placeholder:text-black placeholder:font-medium"
+            readOnly={true}
+            type="number"
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Teacher First"
+          name="firstName"
+          // rules={[{ required: true, message: "Please input!" }]}
+          // initialValue={TeacherDetails?.firstName}
+        >
+          <Input
+            className="placeholder:text-black placeholder:font-medium"
+            readOnly={true}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Teacher Last"
+          name="lastName"
+          // rules={[{ required: true, message: "Please input!" }]}
+          // initialValue={TeacherDetails?.lastName}
+        >
+          <Input
+            className="placeholder:text-black placeholder:font-medium"
+            readOnly={true}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Course Title"
+          name="title"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="fees"
           name="fees"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
-        </Form.Item>
+        </Form.Item> */}
+
         <Form.Item
           label="Description"
           name="description"
@@ -86,18 +149,19 @@ const AddCourse: React.FC = () => {
           <Input style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="rating"
           name="rating"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
-          label="ValidDate"
-          name="validDate"
+          label="Create Date"
+          name="createDate"
           rules={[{ required: true, message: "Please input!" }]}
+          // initialValue={dayjs(new Date())}
         >
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
@@ -108,11 +172,33 @@ const AddCourse: React.FC = () => {
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Select
-            options={[
-              { label: "Graphy Desgin", value: "Graphy Desgin" },
-              { label: "Java Devlopment", value: "Java Devlopment" },
-              { label: "Web Devlopment", value: "Web Devlopment" },
-            ]}
+            options={
+              // { label: "Graphy Desgin", value: "Graphy Desgin" },
+              // { label: "Java Devlopment", value: "Java Devlopment" },
+              // { label: "Web Devlopment", value: "Web Devlopment" },
+              categories?.map((itme) => ({
+                label: itme.category,
+                value: itme.categoryId + 0,
+              }))
+            }
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Language"
+          name="languageId"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Select
+            options={
+              // { label: "Graphy Desgin", value: "Graphy Desgin" },
+              // { label: "Java Devlopment", value: "Java Devlopment" },
+              // { label: "Web Devlopment", value: "Web Devlopment" },
+              language?.map((itme) => ({
+                label: itme.language,
+                value: itme.languageId + 0,
+              }))
+            }
           />
         </Form.Item>
 

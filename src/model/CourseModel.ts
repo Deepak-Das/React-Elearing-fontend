@@ -1,12 +1,13 @@
 export interface CourseModel {
+  isBlock: boolean;
+  category: string;
+  categoryId: number;
   courseId: number;
-  courseName: string;
-  block: boolean;
   createDate: Date;
-  rating:number
-}
-
-export interface Language {
-  
-
+  description: string;
+  language: string;
+  languageId: number;
+  title: string;
+  courseImg: string;
+  videos: any[];
 }

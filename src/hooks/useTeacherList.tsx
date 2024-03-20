@@ -1,29 +1,20 @@
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  MRT_Row,
   useMaterialReactTable,
   type MRT_ColumnDef,
-  MRT_Row,
 } from "material-react-table";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { TeacherModel } from "../model/TeacherModel";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Constant } from "../util/ConstantKey";
 import { getAllTeacher } from "../service/TeacherService";
 
-import {
-  Box,
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { EditNote } from "@mui/icons-material";
+import { FaUsersViewfinder } from "react-icons/fa6";
 import { useNavigate } from "react-router";
-import { setTeacher } from "../state/slice-creater/editStateSlice";
 import { useAppDispatch } from "../state/hook";
+import { setTeacher } from "../state/slice-creater/editStateSlice";
 
 export const useTeacherList = () => {
   const dispatch = useAppDispatch();
@@ -65,8 +56,6 @@ export const useTeacherList = () => {
     []
   );
 
-  const query = useQueryClient();
-
   const { data, isLoading, isError } = useQuery({
     queryKey: ["AllTeacher"],
     queryFn: getAllTeacher,
@@ -74,17 +63,17 @@ export const useTeacherList = () => {
 
   const nagivate = useNavigate();
 
-  const openDeleteConfirmModal = (row: MRT_Row<TeacherModel>) => {
-    if (window.confirm("Are you sure you want to delete this user?")) {
-      // deleteUser(row.original.teacherId);
-    }
-  };
+  // const openDeleteConfirmModal = (row: MRT_Row<TeacherModel>) => {
+  //   if (window.confirm("Are you sure you want to delete this user?")) {
+  //     // deleteUser(row.original.teacherId);
+  //   }
+  // };
 
   const table = useMaterialReactTable({
     data: data?.data ?? [],
     columns, //data must be memoized or stable (useState, useMemo, defined outside of this component, etc.)
     enableRowActions: true,
-    renderRowActions: ({ row, table }) => (
+    renderRowActions: ({ row }) => (
       <Box sx={{ display: "flex", gap: "1rem" }}>
         <Tooltip title="Edit">
           <IconButton
@@ -93,12 +82,23 @@ export const useTeacherList = () => {
               nagivate("../edit-teacher");
             }}
           >
-            <EditIcon />
+            <EditNote />
           </IconButton>
         </Tooltip>
-        <Tooltip title="Delete">
+        {/* <Tooltip title="Delete">
           <IconButton color="error" onClick={() => openDeleteConfirmModal(row)}>
             <DeleteIcon />
+          </IconButton>
+        </Tooltip> */}
+        <Tooltip title="View">
+          <IconButton
+            color="success"
+            onClick={() => {
+              dispatch(setTeacher(row.original));
+              nagivate("../teacher-detail");
+            }}
+          >
+            <FaUsersViewfinder />
           </IconButton>
         </Tooltip>
       </Box>

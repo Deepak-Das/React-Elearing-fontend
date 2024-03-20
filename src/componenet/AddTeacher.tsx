@@ -1,27 +1,10 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  DatePicker,
-  Form,
-  GetProp,
-  Input,
-  Modal,
-  Select,
-  Switch,
-  Upload,
-  UploadFile,
-  UploadProps,
-  message,
-} from "antd";
-import moment from "moment";
-
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { Button, DatePicker, Form, Input, Select, Switch, message } from "antd";
+import React, { useEffect } from "react";
 
 import teacherTeam from "../assets/teachers.png";
-import { useForm } from "antd/es/form/Form";
+import useCrudeTeacher from "../hooks/useCrudeTeacher";
+import { saveTeacher } from "../service/TeacherService";
 import UploadProfile from "./UploadProfile";
-import useSingleTeacher from "../hooks/useSingleTeacher";
-// import { useForm, Controller } from "react-hook-form";
 
 const formItemLayout = {
   labelCol: {
@@ -34,24 +17,19 @@ const formItemLayout = {
   },
 };
 
-// =====================
-
 const AddTeacher: React.FC = () => {
   const [messageApi, contextHolder] = message.useMessage();
-  const dateFormat = "YYYY-MM-DD";
 
   const {
     onFinish,
     base64ImgData,
-    setBase64Image,
     form,
     isError,
     isPending,
     isSuccess,
     uploadLoading,
-    setUploadLoadin,
     handleChange,
-  } = useSingleTeacher();
+  } = useCrudeTeacher({ apiFun: saveTeacher });
 
   useEffect(() => {
     {
@@ -155,14 +133,14 @@ const AddTeacher: React.FC = () => {
 
         <Form.Item
           label="Language"
-          name="language"
+          name="languageId"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Select
             options={[
-              { label: "Hindi", value: "Hindi" },
-              { label: "English", value: "English" },
-              { label: "Bengali", value: "Bengali" },
+              { label: "Hindi", value: 1 },
+              { label: "English", value: 2 },
+              { label: "Bengali", value: 3 },
             ]}
           />
         </Form.Item>

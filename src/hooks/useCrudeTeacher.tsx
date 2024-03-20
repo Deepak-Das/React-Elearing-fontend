@@ -2,12 +2,16 @@ import { useMutation } from "@tanstack/react-query";
 import { GetProp, UploadProps } from "antd";
 import { useForm } from "antd/es/form/Form";
 import React, { useState } from "react";
-import { postSingleTeacher } from "../service/TeacherService";
 import { TeacherModel } from "../model/TeacherModel";
 import moment from "moment";
 import { RcFile } from "antd/es/upload";
+import { saveTeacher } from "../service/TeacherService";
 
-const useSingleTeacher = () => {
+const useCrudeTeacher = ({
+  apiFun,
+}: {
+  apiFun: (data: TeacherModel) => Promise<void>;
+}) => {
   type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 
   const [uploadLoading, setUploadLoadin] = useState(false);
@@ -47,7 +51,7 @@ const useSingleTeacher = () => {
 
   const { mutate, isError, isPending, isSuccess } = useMutation({
     mutationKey: ["Save Teacher"],
-    mutationFn: postSingleTeacher,
+    mutationFn: apiFun,
   });
 
   const onFinish = (values: any) => {
@@ -78,4 +82,4 @@ const useSingleTeacher = () => {
   };
 };
 
-export default useSingleTeacher;
+export default useCrudeTeacher;

@@ -1,31 +1,14 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  DatePicker,
-  Form,
-  GetProp,
-  Input,
-  Modal,
-  Select,
-  Switch,
-  Upload,
-  UploadFile,
-  UploadProps,
-  message,
-} from "antd";
+import { Button, DatePicker, Form, Input, Select, Switch } from "antd";
+import React, { useEffect } from "react";
 
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-
-import teacherTeam from "../assets/teachers.png";
-import { useForm } from "antd/es/form/Form";
-import UploadProfile from "./UploadProfile";
-import { TeacherModel } from "../model/TeacherModel";
-import { useAppSelector } from "../state/hook";
-import moment from "moment";
 import dayjs from "dayjs";
+import teacherTeam from "../assets/teachers.png";
+import useCrudeTeacher from "../hooks/useCrudeTeacher";
+import { updateTeacher } from "../service/TeacherService";
+import { BASE_URL } from "../service/axios";
+import { useAppSelector } from "../state/hook";
+import UploadProfile from "./UploadProfile";
 // import { useForm, Controller } from "react-hook-form";
-
-const { RangePicker } = DatePicker;
 
 const formItemLayout = {
   labelCol: {
@@ -38,36 +21,18 @@ const formItemLayout = {
   },
 };
 
-const uploadButton = (
-  <button style={{ border: 0, background: "none" }} type="button">
-    <PlusOutlined />
-    <div style={{ marginTop: 8 }}>Upload</div>
-  </button>
-);
-
-type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
-
-const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-
 // =====================
 
 const EditTeacher: React.FC = () => {
   const editTeacher = useAppSelector((state) => state.editState.teacher);
-  const [form] = useForm<TeacherModel>();
-
-  const onFinish = (values: any) => {
-    const jsonBody = { ...values, base64: base64ImgData };
-    console.log(jsonBody);
-    form.resetFields();
-  };
-
-  const base64ImgData = "";
+  const {
+    onFinish,
+    base64ImgData,
+    setBase64Image,
+    form,
+    uploadLoading,
+    handleChange,
+  } = useCrudeTeacher({ apiFun: updateTeacher });
 
   useEffect(() => {
     const cDoj = editTeacher?.doj;
@@ -75,7 +40,7 @@ const EditTeacher: React.FC = () => {
       ...editTeacher,
       doj: dayjs(cDoj),
     });
-
+    setBase64Image(BASE_URL + "/file/" + editTeacher?.profilePicture || "");
     form.setFieldsValue({
       ...editTeacher,
       doj: dayjs(cDoj),
@@ -97,9 +62,12 @@ const EditTeacher: React.FC = () => {
             Add New Teacher
           </h3>
         </div>
-
         <Form.Item label="Upload Img">
-          <UploadProfile setBase64={() => {}} base64Data={base64ImgData} />
+          <UploadProfile
+            base64Data={base64ImgData}
+            loading={uploadLoading}
+            handleChange={handleChange}
+          />
         </Form.Item>
 
         <Form.Item
@@ -169,9 +137,9 @@ const EditTeacher: React.FC = () => {
         >
           <Select
             options={[
-              { label: "Hindi", value: "Hindi" },
-              { label: "English", value: "English" },
-              { label: "Bengali", value: "Bengali" },
+              { label: "Hindi", value: 1 },
+              { label: "English", value: 2 },
+              { label: "Bengali", value: 3 },
             ]}
           />
         </Form.Item>
