@@ -1,47 +1,44 @@
-import React, { useState } from "react";
-import { Button, Modal } from "antd";
+import { Form, Modal } from "antd";
+import React from "react";
+import { useParams } from "react-router";
+import useUploadVideo from "../hooks/useUploadVideo";
+import UploadProfile from "./UploadProfile";
 import VideoUploadBox from "./VideoUploadBox";
-import { useAppDispatch, useAppSelector } from "../state/hook";
-import { useNavigate } from "react-router";
-import { setVDialoge } from "../state/slice-creater/toggleVideoUploadSlice";
+
 
 const VideoUploadDialoge: React.FC = () => {
-  const collapsed = useAppSelector(
-    (state) => state.videoUploadDialoge.collapse
-  );
-  const disPatch = useAppDispatch();
 
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState("Content of the modal");
+  const { courseId } = useParams();
 
-  const showModal = () => {
-    disPatch(setVDialoge(true));
-  };
-
-  const handleOk = () => {
-    setModalText("The modal will be closed after two seconds");
-    setConfirmLoading(true);
-    setTimeout(() => {
-      disPatch(setVDialoge(false));
-      setConfirmLoading(false);
-    }, 2000);
-  };
-
-  const handleCancel = () => {
-    console.log("Clicked cancel button");
-    disPatch(setVDialoge(false));
-  };
+  const {
+    uploadLoading,
+    base64ImgData,
+    handleChange,
+    handleOk,
+    handleCancel,
+    collapsed,
+    confirmLoading,
+    setVideoFile,
+  } = useUploadVideo();
 
   return (
     <>
       <Modal
-        title="Upload Video"
+        title="Upload Video Thumbnail"
         open={collapsed}
         onOk={handleOk}
         confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
-        <VideoUploadBox />
+        <Form.Item label="Upload Img">
+            <UploadProfile
+              base64Data={base64ImgData}
+              loading={uploadLoading}
+              handleChange={handleChange}
+            />
+        </Form.Item>
+
+        <VideoUploadBox setVideoFile={setVideoFile} />
       </Modal>
     </>
   );

@@ -2,7 +2,8 @@ import { CourseModel } from "../model/CourseModel";
 import axios from "./axios";
 
 interface Props {
-  teacherId: number;
+  teacherId?: number | string;
+  courseId?: number | string;
   data?: CourseModel;
 }
 
@@ -24,11 +25,22 @@ export const addCourse = async ({ teacherId, data }: Props) => {
     console.log(err);
   }
 };
-
-export const updateCourse = async (data: any) => {
+export const updateCourse = async ({ courseId, data }: Props) => {
   try {
-    const res = await axios.put("/course", data);
+    return await axios.put<CourseModel[]>(
+      `course/${courseId}`,
+      data
+    );
   } catch (err) {
     console.log(err);
   }
 };
+
+export const getCourseById = async ({ courseId }: Props) => {
+  try {
+    return (await axios.get<CourseModel>(`course/${courseId}`)).data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+

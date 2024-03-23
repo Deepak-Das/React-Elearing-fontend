@@ -14,9 +14,17 @@ interface Props {
   description: string;
   category: string;
   date: string;
+  courseId: number;
 }
 
-const CourseCard = ({ title, description, image, category, date }: Props) => {
+const CourseCard = ({
+  title,
+  description,
+  image,
+  category,
+  date,
+  courseId,
+}: Props) => {
   return (
     <div className="w-[300px] rounded overflow-hidden shadow-lg">
       <img className="w-full h-64" src={image} alt={title} />
@@ -34,7 +42,7 @@ const CourseCard = ({ title, description, image, category, date }: Props) => {
         </p>
       </div>
       <div className="px-6 py-4 flex gap-2">
-        <Link to={"../course-detail"}>
+        <Link to={`../course-detail/${courseId}`}>
           <Button type="primary" htmlType="submit" className="bg-[#15395b]">
             View Details
           </Button>

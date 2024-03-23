@@ -1,27 +1,15 @@
-import React, { useState } from "react";
-import {
-  Button,
-  DatePicker,
-  Form,
-  GetProp,
-  Input,
-  Modal,
-  Select,
-  Switch,
-  Upload,
-  UploadFile,
-  UploadProps,
-  message,
-} from "antd";
+import { Button, DatePicker, Form, Input, Select, Switch, message } from "antd";
+import React, { useEffect } from "react";
 
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
-
+import { useQuery } from "@tanstack/react-query";
+import dayjs from "dayjs";
+import { useParams } from "react-router";
 import teacherTeam from "../assets/teachers.png";
-import { useForm } from "antd/es/form/Form";
+import { useUpdateCourse } from "../hooks/useCrudeCourse";
+import { getCourseById } from "../service/CourseService";
 import UploadProfile from "./UploadProfile";
 // import { useForm, Controller } from "react-hook-form";
 
-const { RangePicker } = DatePicker;
 
 const formItemLayout = {
   labelCol: {
@@ -35,17 +23,56 @@ const formItemLayout = {
 };
 
 const EditCourse: React.FC = () => {
-  const [form] = useForm();
-  const onFinish = (values: any) => {
-    const jsonBody = { ...values, base64: base64ImgData };
-    console.log(jsonBody);
-    form.resetFields();
-  };
+  const [messageApi, contextHolder] = message.useMessage();
 
-  const base64ImgData = "";
+  const { courseId } = useParams();
+  const { data } = useQuery({
+    queryKey: ["singleCourse"],
+    queryFn: () => getCourseById({ courseId }),
+  });
+
+  const {
+    onFinish,
+    base64ImgData,
+    form,
+    isPending,
+    isSuccess,
+    uploadLoading,
+    handleChange,
+    categories,
+    language,
+  } = useUpdateCourse();
+
+  useEffect(() => {
+
+     {
+       isPending &&
+         messageApi.open({
+           type: "warning",
+           content: "wait while teacher is saving",
+           duration: 5,
+         });
+     }
+
+     {
+       isSuccess &&
+         messageApi.open({
+           type: "success",
+           content: "Teacher saved successfully",
+           duration: 10,
+         });
+     }
+
+    form.setFieldsValue({
+      ...data,
+      createDate: dayjs(data?.createDate),
+    });
+  }, []);
 
   return (
     <div className="p-4 m-6 rounded-lg grid grid-cols-3 justify-center items-center bg-white">
+      {contextHolder}
+
       <Form
         {...formItemLayout}
         variant="filled"
@@ -55,45 +82,34 @@ const EditCourse: React.FC = () => {
       >
         <div className="w-full flex justify-center items-center p-4">
           <h3 className="text-lg font-medium uppercase underline">
-            Edit Course
+            Edit course
           </h3>
         </div>
 
-        <Form.Item label="Course Img">
+        <Form.Item label="Upload Img">
           <UploadProfile
             base64Data={base64ImgData}
-            imgUrl="https://www.jrebel.com/sites/default/files/image/2020-05/image-blog-revel-top-java-tools.jpg"
+            loading={uploadLoading}
+            handleChange={handleChange}
           />
         </Form.Item>
 
         <Form.Item
-          label="Courser ID"
-          name="corusreId"
-          // rules={[{ required: true, message: "Please input!" }]}
-        >
-          <Input
-            placeholder="1234"
-            className="placeholder:text-black placeholder:font-medium"
-            readOnly={true}
-            disabled={true}
-          />
-        </Form.Item>
-
-        <Form.Item
-          label="Course Name"
-          name="coursename"
+          label="Course Title"
+          name="title"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="fees"
           name="fees"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
-        </Form.Item>
+        </Form.Item> */}
+
         <Form.Item
           label="Description"
           name="description"
@@ -102,18 +118,19 @@ const EditCourse: React.FC = () => {
           <Input style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           label="rating"
           name="rating"
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Input style={{ width: "100%" }} />
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item
-          label="ValidDate"
-          name="validDate"
+          label="Create Date"
+          name="createDate"
           rules={[{ required: true, message: "Please input!" }]}
+          // initialValue={dayjs(new Date())}
         >
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
@@ -124,11 +141,33 @@ const EditCourse: React.FC = () => {
           rules={[{ required: true, message: "Please input!" }]}
         >
           <Select
-            options={[
-              { label: "Graphy Desgin", value: "Graphy Desgin" },
-              { label: "Java Devlopment", value: "Java Devlopment" },
-              { label: "Web Devlopment", value: "Web Devlopment" },
-            ]}
+            options={
+              // { label: "Graphy Desgin", value: "Graphy Desgin" },
+              // { label: "Java Devlopment", value: "Java Devlopment" },
+              // { label: "Web Devlopment", value: "Web Devlopment" },
+              categories?.map((itme) => ({
+                label: itme.category,
+                value: itme.categoryId + 0,
+              }))
+            }
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="Language"
+          name="languageId"
+          rules={[{ required: true, message: "Please input!" }]}
+        >
+          <Select
+            options={
+              // { label: "Graphy Desgin", value: "Graphy Desgin" },
+              // { label: "Java Devlopment", value: "Java Devlopment" },
+              // { label: "Web Devlopment", value: "Web Devlopment" },
+              language?.map((itme) => ({
+                label: itme.language,
+                value: itme.languageId + 0,
+              }))
+            }
           />
         </Form.Item>
 

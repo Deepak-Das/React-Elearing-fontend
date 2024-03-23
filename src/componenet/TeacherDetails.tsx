@@ -6,12 +6,17 @@ import { useAppSelector } from "../state/hook";
 import useCousreList from "../hooks/useCousreList";
 import moment from "moment";
 import { BASE_URL } from "../service/axios";
+import { useEffect } from "react";
 
 const TeacherDetails = () => {
   const navigate = useNavigate();
   const TeacherDetails = useAppSelector((state) => state.editState.teacher);
 
   const { data } = useCousreList({ teacherId: TeacherDetails?.teacherId || 0 });
+
+  useEffect(() => {
+    console.log(TeacherDetails);
+  }, []);
 
   return (
     <>
@@ -21,7 +26,8 @@ const TeacherDetails = () => {
             <Avatar
               className="mb-6"
               size={100}
-              src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
+              // src="https://img.freepik.com/premium-vector/businessman-avatar-illustration-cartoon-user-portrait-user-profile-icon_118339-4382.jpg"
+              src={`${BASE_URL}/file/${TeacherDetails?.profilePicture}`}
             />
             <div className="w-full flex flex-col items-center gap-1 justify-center">
               <div className="font-medium text-md">
@@ -106,6 +112,7 @@ const TeacherDetails = () => {
             title={item.title}
             category={item.category}
             date={moment(item.createDate).format("YYYY-MM-DD")}
+            courseId={item.courseId}
           />
         ))}
       </div>

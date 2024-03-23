@@ -15,7 +15,12 @@ export const saveTeacher = async (data: TeacherModel) => {
 
 export const updateTeacher = async (data: TeacherModel) => {
   try {
-    const res = await axios.put<TeacherModel>("/teacher", data);
+    console.log(`/teacher/${data.teacherId}`);
+
+    const res = await axios.put<TeacherModel>(
+      `/teacher/${data.teacherId}`,
+      data
+    );
   } catch (err) {
     console.log(err);
   }

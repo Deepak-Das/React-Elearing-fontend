@@ -44,22 +44,24 @@ const UploadProfile: React.FC<Props> = ({
   );
 
   return (
-    <Upload
-      name="avatar"
-      listType="picture-card"
-      className="avatar-uploader"
-      showUploadList={false}
-      // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-      beforeUpload={beforeUpload}
-      customRequest={dummyRequest}
-      onChange={handleChange}
-    >
-      {base64Data ? (
-        <img src={base64Data} alt="avatar" style={{ width: "80%" }} />
-      ) : (
-        uploadButton
-      )}
-    </Upload>
+    <ImgCrop cropShape="rect" aspect={9 / 6} rotationSlider>
+      <Upload
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        // action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        beforeUpload={beforeUpload}
+        customRequest={dummyRequest}
+        onChange={handleChange}
+      >
+        {base64Data ? (
+          <img src={base64Data} alt="avatar" style={{ width: "80%" }} />
+        ) : (
+          uploadButton
+        )}
+      </Upload>
+    </ImgCrop>
   );
 };
 

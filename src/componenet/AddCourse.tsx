@@ -2,10 +2,10 @@ import { Button, DatePicker, Form, Input, Select, Switch, message } from "antd";
 import React, { useEffect } from "react";
 
 import teacherTeam from "../assets/teachers.png";
-import useCrudeCourse from "../hooks/useCrudeCourse";
 import { useAppSelector } from "../state/hook";
 import UploadProfile from "./UploadProfile";
 import dayjs from "dayjs";
+import { useSaveCourse } from "../hooks/useCrudeCourse";
 // import { useForm, Controller } from "react-hook-form";
 
 const { RangePicker } = DatePicker;
@@ -36,7 +36,7 @@ const AddCourse: React.FC = () => {
     handleChange,
     categories,
     language,
-  } = useCrudeCourse();
+  } = useSaveCourse();
 
   useEffect(() => {
     {
