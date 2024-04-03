@@ -8,9 +8,10 @@ interface Props {
   img: string | undefined | null;
   title: string | undefined | null;
   description: string | undefined | null;
+  file:string
 }
 
-export function VideoCard({ description, img, title }: Props) {
+export function VideoCard({ description, img, title,file }: Props) {
   const navigate = useNavigate();
 
   return (
@@ -34,7 +35,7 @@ export function VideoCard({ description, img, title }: Props) {
           controls
         >
           <source
-            src="http://localhost:9090/api/file/2355a4eb-0331-431e-9a24-3b582631ff42.mp4"
+            src={`http://localhost:9090/api/file/${file}`}
             type="video/mp4"
           />
         </video>

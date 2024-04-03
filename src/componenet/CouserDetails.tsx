@@ -121,7 +121,12 @@ const CourseDetail = () => {
         </Button>
       </div>
       {data?.videos.map((item) => (
-        <VideoCard title={item.title} img={item.thumbnail} description={""} />
+        <VideoCard
+          title={item.title}
+          img={item.thumbnail}
+          description={""}
+          file={item.fileName}
+        />
       ))}
       <VideoUploadDialoge />
     </>
