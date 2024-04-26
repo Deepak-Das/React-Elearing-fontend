@@ -27,10 +27,7 @@ export const addCourse = async ({ teacherId, data }: Props) => {
 };
 export const updateCourse = async ({ courseId, data }: Props) => {
   try {
-    return await axios.put<CourseModel[]>(
-      `course/${courseId}`,
-      data
-    );
+    return await axios.put<CourseModel[]>(`course/${courseId}`, data);
   } catch (err) {
     console.log(err);
   }
@@ -43,4 +40,10 @@ export const getCourseById = async ({ courseId }: Props) => {
     console.log(err);
   }
 };
-
+export const allCourse = async () => {
+  try {
+    return (await axios.get<CourseModel[]>(`course`)).data;
+  } catch (err) {
+    console.log(err);
+  }
+};

@@ -15,6 +15,8 @@ interface Props {
   category: string;
   date: string;
   courseId: number;
+  btext?: string;
+  hlink?: string;
 }
 
 const CourseCard = ({
@@ -24,6 +26,8 @@ const CourseCard = ({
   category,
   date,
   courseId,
+  btext = "View Details",
+  hlink = `../course-detail/${courseId}`,
 }: Props) => {
   return (
     <div className="w-[300px] rounded overflow-hidden shadow-lg">
@@ -42,9 +46,9 @@ const CourseCard = ({
         </p>
       </div>
       <div className="px-6 py-4 flex gap-2">
-        <Link to={`../course-detail/${courseId}`}>
+        <Link to={hlink}>
           <Button type="primary" htmlType="submit" className="bg-[#15395b]">
-            View Details
+            {btext}
           </Button>
         </Link>
         {/* <Button type="primary" htmlType="submit" className="bg-[#15395b]">

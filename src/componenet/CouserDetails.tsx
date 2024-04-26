@@ -111,7 +111,10 @@ const CourseDetail = () => {
               </div>
             </div>
           </div>
+
+
         </div>
+        
         <Button
           type="primary"
           className="absolute right-4 top-2"
@@ -120,6 +123,7 @@ const CourseDetail = () => {
           Edit Detail
         </Button>
       </div>
+      
       {data?.videos.map((item) => (
         <VideoCard
           title={item.title}
