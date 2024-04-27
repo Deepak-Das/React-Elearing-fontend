@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, Card } from "antd";
 import Meta from "antd/es/card/Meta";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { Video } from "../../model/CourseModel";
 import { getCourseById } from "../../service/CourseService";
@@ -26,6 +26,11 @@ const OnlinePlaylist = () => {
     setCurUrl(`http://localhost:9090/api/file/${video.fileName}`);
     setImg(`${BASE_URL}/file/${video.thumbnail}`);
   };
+
+  useEffect(() => {
+    setCurUrl(`http://localhost:9090/api/file/${data?.videos[0].fileName}`);
+    setImg(`${BASE_URL}/file/${data?.videos[0].thumbnail}`);
+  }, [currUrl, img]);
 
   return (
     <>

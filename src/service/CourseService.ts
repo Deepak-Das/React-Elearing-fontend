@@ -4,6 +4,7 @@ import axios from "./axios";
 interface Props {
   teacherId?: number | string;
   courseId?: number | string;
+  catId?: number | string;
   data?: CourseModel;
 }
 
@@ -43,6 +44,14 @@ export const getCourseById = async ({ courseId }: Props) => {
 export const allCourse = async () => {
   try {
     return (await axios.get<CourseModel[]>(`course`)).data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const allCourseByCat = async ({ catId }: Props) => {
+  try {
+    return (await axios.get<CourseModel[]>(`course/cat/${catId}`)).data;
   } catch (err) {
     console.log(err);
   }

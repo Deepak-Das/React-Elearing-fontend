@@ -26,6 +26,7 @@ import {
 import TeachersList from "./componenet/team/TeachersList";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import OnlinePlaylist from "./componenet/allcourses/OnlinePlaylist";
+import CourseList from "./componenet/allcourses/CourseList";
 
 const router = createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "courses",
         element: <OnlineCourses />,
+      },
+      {
+        path: "courses/cat/:catId",
+        element: <CourseList />,
       },
       {
         path: "course/:cId",
